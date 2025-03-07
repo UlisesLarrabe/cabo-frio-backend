@@ -10,5 +10,5 @@ export class CreateOrderDto {
   @IsDateString()
   createdAt: Date;
   @IsArray()
-  description: Array<{ item: string; quantity: number }>;
+  description: Array<{ item: string; quantity: number; type: string }>;
 }
