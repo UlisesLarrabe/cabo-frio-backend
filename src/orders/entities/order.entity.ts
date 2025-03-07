@@ -13,6 +13,8 @@ export class Order {
   createdAt: Date;
   @Prop({ required: true })
   paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya';
+  @Prop({ required: true })
+  description: Array<{ item: string; quantity: number }>;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

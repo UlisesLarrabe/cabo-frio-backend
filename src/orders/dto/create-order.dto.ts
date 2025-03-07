@@ -1,4 +1,4 @@
-import { IsDateString, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsDateString, IsNumber, IsString } from 'class-validator';
 
 export class CreateOrderDto {
   @IsString()
@@ -9,4 +9,6 @@ export class CreateOrderDto {
   paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya';
   @IsDateString()
   createdAt: Date;
+  @IsArray()
+  description: Array<{ item: string; quantity: number }>;
 }

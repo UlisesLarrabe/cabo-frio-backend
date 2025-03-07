@@ -17,8 +17,9 @@ export class OrdersService {
     @InjectModel(Order.name) private orderModel: Model<Order>,
   ) {}
   async createIncome(createOrderDto: CreateOrderDto) {
-    const { local, totalPrice, paymentMethod, createdAt } = createOrderDto;
-    if (!local || !totalPrice || !paymentMethod || !createdAt) {
+    const { local, totalPrice, paymentMethod, createdAt, description } =
+      createOrderDto;
+    if (!local || !totalPrice || !paymentMethod || !createdAt || !description) {
       throw new UnauthorizedException('Missing required fields');
     }
     const newOrder = await this.orderModel.create(createOrderDto);
