@@ -12,5 +12,6 @@ import { Movement, MovementSchema } from './entities/movement.entity';
   ],
   controllers: [MovementsController],
   providers: [MovementsService],
+  exports: [MovementsService],
 })
 export class MovementsModule {}
