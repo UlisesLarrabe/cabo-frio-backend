@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { MovementsService } from './movements.service';
 import { CreateMovementDto } from './dto/create-movement.dto';
 import { UpdateMovementDto } from './dto/update-movement.dto';
@@ -17,18 +25,26 @@ export class MovementsController {
     return this.movementsService.findAll();
   }
 
+  @Get('filter')
+  filter(@Body() filter: object) {
+    return this.movementsService.filter(filter);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.movementsService.findOne(+id);
+    return this.movementsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMovementDto: UpdateMovementDto) {
-    return this.movementsService.update(+id, updateMovementDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateMovementDto: UpdateMovementDto,
+  ) {
+    return this.movementsService.update(id, updateMovementDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.movementsService.remove(+id);
+    return this.movementsService.remove(id);
   }
 }
