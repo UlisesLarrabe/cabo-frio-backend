@@ -4,7 +4,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { CreateMovementDto } from './dto/create-movement.dto';
-import { UpdateMovementDto } from './dto/update-movement.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Movement } from './entities/movement.entity';
 import { Model } from 'mongoose';
@@ -33,13 +32,5 @@ export class MovementsService {
       throw new NotFoundException('Movement not found');
     }
     return movement;
-  }
-
-  update(id: string, updateMovementDto: UpdateMovementDto) {
-    return `This action updates a #${id} movement`;
-  }
-
-  remove(id: string) {
-    return `This action removes a #${id} movement`;
   }
 }
