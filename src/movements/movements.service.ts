@@ -27,10 +27,6 @@ export class MovementsService {
     return await this.movementModel.find();
   }
 
-  async filter(filter: object) {
-    return await this.movementModel.find(filter);
-  }
-
   async findOne(id: string) {
     const movement = await this.movementModel.findById(id);
     if (!movement) {

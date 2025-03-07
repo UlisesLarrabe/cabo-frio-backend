@@ -25,11 +25,6 @@ export class MovementsController {
     return this.movementsService.findAll();
   }
 
-  @Get('filter')
-  filter(@Body() filter: object) {
-    return this.movementsService.filter(filter);
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.movementsService.findOne(id);
