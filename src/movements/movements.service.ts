@@ -22,8 +22,28 @@ export class MovementsService {
     return { message: 'Movement created successfully', movement };
   }
 
-  async findAll() {
-    return await this.movementModel.find();
+  async findAll(local?: string) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    if (local) {
+      return await this.movementModel.find({
+        createdAt: {
+          $gte: today,
+          $lt: tomorrow,
+        },
+        local,
+      });
+    }
+
+    return await this.movementModel.find({
+      createdAt: {
+        $gte: today,
+        $lt: tomorrow,
+      },
+    });
   }
 
   async findOne(id: string) {

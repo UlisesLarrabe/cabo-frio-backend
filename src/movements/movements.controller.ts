@@ -16,6 +16,11 @@ export class MovementsController {
     return this.movementsService.findAll();
   }
 
+  @Get(':local')
+  findAllWithLocal(@Param('local') local?: string) {
+    return this.movementsService.findAll(local);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.movementsService.findOne(id);
