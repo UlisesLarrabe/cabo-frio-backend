@@ -25,6 +25,11 @@ export class OrdersController {
     return this.ordersService.findAll();
   }
 
+  @Get(':local')
+  findAllWithLocal(@Param('local') local?: string) {
+    return this.ordersService.findAll(local);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.ordersService.findOne(id);
