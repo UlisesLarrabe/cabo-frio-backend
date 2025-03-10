@@ -4,11 +4,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Movement } from 'src/movements/entities/movement.entity';
 import { Model } from 'mongoose';
 import { Order } from './entities/order.entity';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class OrdersService {
@@ -64,11 +64,14 @@ export class OrdersService {
     return order;
   }
 
-  update(id: string, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
-  }
-
-  remove(id: string) {
-    return `This action removes a #${id} order`;
+  async findByDate(date: string) {
+    const today = dayjs(date);
+    const tomorrow = today.add(1, 'day');
+    return await this.orderModel.find({
+      createdAt: {
+        $gte: today,
+        $lt: tomorrow,
+      },
+    });
   }
 }
