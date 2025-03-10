@@ -7,6 +7,7 @@ import { CreateMovementDto } from './dto/create-movement.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Movement } from './entities/movement.entity';
 import { Model } from 'mongoose';
+import dayjs from 'dayjs';
 
 @Injectable()
 export class MovementsService {
@@ -52,5 +53,37 @@ export class MovementsService {
       throw new NotFoundException('Movement not found');
     }
     return movement;
+  }
+
+  async findByDateAndLocalAndTypeAndPaymentMethod(
+    date: string,
+    local?: string,
+    type?: string,
+    paymentMethod?: string,
+  ) {
+    const today = dayjs(date);
+    const tomorrow = today.add(1, 'day');
+
+    const filter: Record<string, any> = {
+      createdAt: {
+        $gte: today.toDate(),
+        $lt: tomorrow.toDate(),
+      },
+    };
+
+    if (local && local !== 'all') {
+      filter.local = local;
+    }
+
+    if (type && type !== 'all') {
+      filter.type = type;
+    }
+
+    if (paymentMethod && paymentMethod !== 'all') {
+      filter.paymentMethod = paymentMethod;
+    }
+
+    const movements = await this.movementModel.find(filter);
+    return movements;
   }
 }

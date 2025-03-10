@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { MovementsService } from './movements.service';
 import { CreateMovementDto } from './dto/create-movement.dto';
 
@@ -14,6 +14,21 @@ export class MovementsController {
   @Get()
   findAll() {
     return this.movementsService.findAll();
+  }
+
+  @Get('filters')
+  findByDateAndLocalAndTypeAndPaymentMethod(
+    @Query('date') date: string,
+    @Query('local') local: string,
+    @Query('type') type: string,
+    @Query('paymentMethod') paymentMethod: string,
+  ) {
+    return this.movementsService.findByDateAndLocalAndTypeAndPaymentMethod(
+      date,
+      local,
+      type,
+      paymentMethod,
+    );
   }
 
   @Get(':local')
