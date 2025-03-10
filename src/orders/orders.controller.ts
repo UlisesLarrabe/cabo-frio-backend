@@ -30,4 +30,12 @@ export class OrdersController {
   findByDate(@Param('date') date: string) {
     return this.ordersService.findByDate(date);
   }
+
+  @Get('date/:date/:local')
+  findByDateAndLocal(
+    @Param('date') date: string,
+    @Param('local') local: string,
+  ) {
+    return this.ordersService.findByDateAndLocal(date, local);
+  }
 }

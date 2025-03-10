@@ -74,4 +74,16 @@ export class OrdersService {
       },
     });
   }
+
+  async findByDateAndLocal(date: string, local: string) {
+    const today = dayjs(date);
+    const tomorrow = today.add(1, 'day');
+    return await this.orderModel.find({
+      createdAt: {
+        $gte: today,
+        $lt: tomorrow,
+      },
+      local,
+    });
+  }
 }
