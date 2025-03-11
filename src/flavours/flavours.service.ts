@@ -27,6 +27,20 @@ export class FlavoursService {
     return await this.flavourModel.find();
   }
 
+  async findAllWithFilters(local: string, name: string) {
+    const filter: Record<string, any> = {};
+
+    if (name) {
+      filter.name = name;
+    }
+
+    if (local && local !== 'all') {
+      filter.local = local;
+    }
+    const flavours = await this.flavourModel.find(filter);
+    return flavours;
+  }
+
   async findOne(id: string) {
     const flavour = await this.flavourModel.findById(id);
     if (!flavour) {

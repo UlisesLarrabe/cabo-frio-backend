@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { FlavoursService } from './flavours.service';
 import { CreateFlavourDto } from './dto/create-flavour.dto';
@@ -23,6 +24,14 @@ export class FlavoursController {
   @Get()
   findAll() {
     return this.flavoursService.findAll();
+  }
+
+  @Get('filters')
+  findAllWithFilters(
+    @Query('local') local: string,
+    @Query('name') name: string,
+  ) {
+    return this.flavoursService.findAllWithFilters(local, name);
   }
 
   @Get(':id')
