@@ -14,7 +14,7 @@ export class Order {
   @Prop({ required: true })
   paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya' | 'rappi';
   @Prop({ required: true })
-  description: Array<{ item: string; quantity: number | string }>;
+  description: Array<{ item: string; quantity: number | string; type: string }>;
   @Prop({ required: true, type: String })
   idMovement: string;
 }
