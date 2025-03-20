@@ -14,7 +14,7 @@ export class Movement {
   @Prop({ required: true })
   createdAt: Date;
   @Prop({ required: true })
-  paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya';
+  paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya' | 'rappi';
   @Prop()
   reason?: string;
 }

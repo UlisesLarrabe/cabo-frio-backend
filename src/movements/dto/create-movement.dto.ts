@@ -8,7 +8,7 @@ export class CreateMovementDto {
   @IsNumber()
   amount: number;
   @IsString()
-  paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya';
+  paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya' | 'rappi';
   @IsString()
   reason: string;
   @IsDateString()

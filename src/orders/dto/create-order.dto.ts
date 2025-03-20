@@ -6,9 +6,9 @@ export class CreateOrderDto {
   @IsNumber()
   totalPrice: number;
   @IsString()
-  paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya';
+  paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya' | 'rappi';
   @IsDateString()
   createdAt: Date;
   @IsArray()
-  description: Array<{ item: string; quantity: number; type: string }>;
+  description: Array<{ item: string; quantity: number | string; type: string }>;
 }
