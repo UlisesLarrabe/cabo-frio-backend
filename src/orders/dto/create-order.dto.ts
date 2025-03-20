@@ -11,4 +11,5 @@ export class CreateOrderDto {
   createdAt: Date;
   @IsArray()
   description: Array<{ item: string; quantity: number | string; type: string }>;
+  idMovement: string;
 }

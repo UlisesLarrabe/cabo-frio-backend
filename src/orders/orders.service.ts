@@ -16,13 +16,15 @@ export class OrdersService {
     @InjectModel(Movement.name) private movementModel: Model<Movement>,
     @InjectModel(Order.name) private orderModel: Model<Order>,
   ) {}
+
   async createIncome(createOrderDto: CreateOrderDto) {
     const { local, totalPrice, paymentMethod, createdAt, description } =
       createOrderDto;
+
     if (!local || !totalPrice || !paymentMethod || !createdAt || !description) {
       throw new UnauthorizedException('Missing required fields');
     }
-    const newOrder = await this.orderModel.create(createOrderDto);
+
     const newMovement = await this.movementModel.create({
       type: 'income',
       amount: totalPrice,
@@ -30,6 +32,20 @@ export class OrdersService {
       paymentMethod,
       createdAt,
     });
+
+    if (!newMovement || !newMovement._id) {
+      throw new Error('Error al crear el movimiento, _id no generado.');
+    }
+
+    const newOrder = await this.orderModel.create({
+      local,
+      totalPrice,
+      paymentMethod,
+      createdAt,
+      description,
+      idMovement: newMovement._id,
+    });
+
     return { message: 'Order created', order: newOrder, movement: newMovement };
   }
 
@@ -85,5 +101,17 @@ export class OrdersService {
       },
       local,
     });
+  }
+
+  async remove(id: string) {
+    const order = await this.orderModel.findById(id);
+
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+    await this.movementModel.findByIdAndDelete(order.idMovement);
+    await this.orderModel.findByIdAndDelete(id);
+
+    return { message: 'Order deleted successfully' };
   }
 }

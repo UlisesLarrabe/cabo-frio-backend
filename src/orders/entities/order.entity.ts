@@ -15,6 +15,8 @@ export class Order {
   paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya' | 'rappi';
   @Prop({ required: true })
   description: Array<{ item: string; quantity: number | string }>;
+  @Prop({ required: true, type: String })
+  idMovement: string;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);
