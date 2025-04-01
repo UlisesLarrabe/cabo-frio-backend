@@ -15,8 +15,8 @@ export class FlavoursService {
     @InjectModel(Flavour.name) private flavourModel: Model<Flavour>,
   ) {}
   async create(createFlavourDto: CreateFlavourDto) {
-    const { name, local, stock } = createFlavourDto;
-    if (!name || !local || !stock) {
+    const { name, local } = createFlavourDto;
+    if (!name || !local) {
       throw new UnauthorizedException('Missing required fields');
     }
     const newFlavour = await this.flavourModel.create(createFlavourDto);
