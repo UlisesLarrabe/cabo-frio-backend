@@ -9,6 +9,11 @@ import { Movement } from 'src/movements/entities/movement.entity';
 import { Model } from 'mongoose';
 import { Order } from './entities/order.entity';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 @Injectable()
 export class OrdersService {
@@ -50,26 +55,21 @@ export class OrdersService {
   }
 
   async findAll(local?: string) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
+    const today = dayjs().tz('America/Argentina/Buenos_Aires').startOf('day');
+    const tomorrow = today.add(1, 'day');
+
+    const filter: Record<string, any> = {
+      createdAt: {
+        $gte: today.toDate(),
+        $lt: tomorrow.toDate(),
+      },
+    };
+
     if (local) {
-      return await this.orderModel.find({
-        createdAt: {
-          $gte: today,
-          $lt: tomorrow,
-        },
-        local,
-      });
+      filter.local = local;
     }
 
-    return await this.orderModel.find({
-      createdAt: {
-        $gte: today,
-        $lt: tomorrow,
-      },
-    });
+    return await this.orderModel.find(filter);
   }
 
   async findOne(id: string) {
@@ -81,23 +81,27 @@ export class OrdersService {
   }
 
   async findByDate(date: string) {
-    const today = dayjs(date);
+    const today = dayjs(date)
+      .tz('America/Argentina/Buenos_Aires')
+      .startOf('day');
     const tomorrow = today.add(1, 'day');
     return await this.orderModel.find({
       createdAt: {
-        $gte: today,
-        $lt: tomorrow,
+        $gte: today.toDate(),
+        $lt: tomorrow.toDate(),
       },
     });
   }
 
   async findByDateAndLocal(date: string, local: string) {
-    const today = dayjs(date);
+    const today = dayjs(date)
+      .tz('America/Argentina/Buenos_Aires')
+      .startOf('day');
     const tomorrow = today.add(1, 'day');
     return await this.orderModel.find({
       createdAt: {
-        $gte: today,
-        $lt: tomorrow,
+        $gte: today.toDate(),
+        $lt: tomorrow.toDate(),
       },
       local,
     });
