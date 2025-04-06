@@ -24,7 +24,14 @@ export class MovementsService {
     if (!local || !amount || !type || !paymentMethod || !createdAt) {
       throw new UnauthorizedException('All fields are required');
     }
-    const movement = await this.movementModel.create(createMovementDto);
+    const newMovement = createMovementDto;
+    if (!createMovementDto.client) {
+      newMovement.client = {
+        name: 'Local',
+        value: 'local',
+      };
+    }
+    const movement = await this.movementModel.create(newMovement);
     return { message: 'Movement created successfully', movement };
   }
 

@@ -1,4 +1,5 @@
 import { IsArray, IsDateString, IsNumber, IsString } from 'class-validator';
+import { paymentOptions } from 'const/paymentOptions';
 
 export class CreateOrderDto {
   @IsString()
@@ -6,10 +7,11 @@ export class CreateOrderDto {
   @IsNumber()
   totalPrice: number;
   @IsString()
-  paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya' | 'rappi';
+  paymentMethod: paymentOptions;
   @IsDateString()
   createdAt: Date;
   @IsArray()
   description: Array<{ item: string; quantity: number | string; type: string }>;
   idMovement: string;
+  client?: { name: string; value: string };
 }

@@ -23,7 +23,7 @@ export class OrdersService {
   ) {}
 
   async createIncome(createOrderDto: CreateOrderDto) {
-    const { local, totalPrice, paymentMethod, createdAt, description } =
+    const { local, totalPrice, paymentMethod, createdAt, description, client } =
       createOrderDto;
 
     if (!local || !totalPrice || !paymentMethod || !createdAt || !description) {
@@ -36,6 +36,7 @@ export class OrdersService {
       local,
       paymentMethod,
       createdAt,
+      client,
     });
 
     if (!newMovement || !newMovement._id) {
@@ -49,6 +50,7 @@ export class OrdersService {
       createdAt,
       description,
       idMovement: newMovement._id,
+      client,
     });
 
     return { message: 'Order created', order: newOrder, movement: newMovement };

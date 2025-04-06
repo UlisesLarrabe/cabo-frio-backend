@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { paymentOptions } from 'const/paymentOptions';
 import { HydratedDocument } from 'mongoose';
 
 export type MovementsDocument = HydratedDocument<Movement>;
@@ -14,9 +15,11 @@ export class Movement {
   @Prop({ required: true })
   createdAt: Date;
   @Prop({ required: true })
-  paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya' | 'rappi';
+  paymentMethod: paymentOptions;
   @Prop()
   reason?: string;
+  @Prop({ type: Object })
+  client?: { name: string; value: string };
 }
 
 export const MovementSchema = SchemaFactory.createForClass(Movement);

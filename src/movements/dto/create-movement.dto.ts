@@ -1,4 +1,5 @@
 import { IsDateString, IsNumber, IsString } from 'class-validator';
+import { paymentOptions } from 'const/paymentOptions';
 
 export class CreateMovementDto {
   @IsString()
@@ -8,9 +9,10 @@ export class CreateMovementDto {
   @IsNumber()
   amount: number;
   @IsString()
-  paymentMethod: 'cash' | 'mercado_pago' | 'pedidos_ya' | 'rappi';
+  paymentMethod: paymentOptions;
   @IsString()
   reason: string;
   @IsDateString()
   createdAt: Date;
+  client?: { name: string; value: string };
 }
