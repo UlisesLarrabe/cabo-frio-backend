@@ -11,6 +11,8 @@ export class Flavour {
   stock: number;
   @Prop({ required: true })
   local: string;
+  @Prop({ required: true })
+  refrigerator: string;
 }
 
 export const FlavourSchema = SchemaFactory.createForClass(Flavour);
