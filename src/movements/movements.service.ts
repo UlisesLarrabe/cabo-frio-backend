@@ -36,7 +36,10 @@ export class MovementsService {
   }
 
   async findAll(local?: string) {
-    const today = dayjs().tz('America/Argentina/Buenos_Aires').startOf('day');
+    const today = dayjs()
+      .tz('America/Argentina/Buenos_Aires')
+      .startOf('day')
+      .add(1, 'day');
     const tomorrow = today.add(1, 'day');
 
     const filter: Record<string, any> = {
