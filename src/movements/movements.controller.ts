@@ -31,6 +31,11 @@ export class MovementsController {
     );
   }
 
+  @Get('month/:month')
+  findByMonth(@Param('month') month: string) {
+    return this.movementsService.findByMonth(month);
+  }
+
   @Get(':local')
   findAllWithLocal(@Param('local') local?: string) {
     return this.movementsService.findAll(local);

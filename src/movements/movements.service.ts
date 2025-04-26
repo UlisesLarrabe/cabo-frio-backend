@@ -35,6 +35,21 @@ export class MovementsService {
     return { message: 'Movement created successfully', movement };
   }
 
+  async findByMonth(month: string) {
+    const dayWithMonth = dayjs(month + '/01/' + dayjs().year())
+      .tz('America/Argentina/Buenos_Aires')
+      .startOf('day');
+    const tomorrow = dayWithMonth.add(1, 'day');
+
+    const filter: Record<string, any> = {
+      createdAt: {
+        $gte: dayWithMonth.toDate(),
+        $lt: tomorrow.toDate(),
+      },
+    };
+    return await this.movementModel.find(filter);
+  }
+
   async findAll(local?: string) {
     const today = dayjs()
       .tz('America/Argentina/Buenos_Aires')
