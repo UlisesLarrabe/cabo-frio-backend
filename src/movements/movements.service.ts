@@ -36,15 +36,16 @@ export class MovementsService {
   }
 
   async findByMonth(month: string) {
-    const dayWithMonth = dayjs(month + '/01/' + dayjs().year())
+    const year = dayjs().year();
+    const startOfMonth = dayjs(`${year}-${month}-01`)
       .tz('America/Argentina/Buenos_Aires')
-      .startOf('day');
-    const tomorrow = dayWithMonth.add(1, 'day');
+      .startOf('month');
+    const endOfMonth = startOfMonth.endOf('month').add(1, 'day').startOf('day');
 
-    const filter: Record<string, any> = {
+    const filter: { createdAt: { $gte: Date; $lt: Date } } = {
       createdAt: {
-        $gte: dayWithMonth.toDate(),
-        $lt: tomorrow.toDate(),
+        $gte: startOfMonth.toDate(),
+        $lt: endOfMonth.toDate(),
       },
     };
     return await this.movementModel.find(filter);
